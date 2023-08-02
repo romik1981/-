@@ -35,12 +35,12 @@ class Framework:
             print(data)
             print(f'Нам пришёл post-запрос: {Framework.decode_value(data)}')
             for k,v in data.items():
-                if k == 'message' :
+                if k == 'message':
                     print(f'Нам пришло сообщение:'
                           f' {Framework.decode_value(data)}')
                     with open(f'message.csv', 'a+', encoding='utf-8') as fw:
                         for v in Framework.decode_value(data).items():
-                            fw.writelines(v)
+                            fw.writeline(v)
         if method == 'GET':
             request_params = GetRequests().get_request_params(environ)
             request['request_params'] = Framework.decode_value(request_params)
