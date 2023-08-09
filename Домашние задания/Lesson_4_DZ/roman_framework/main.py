@@ -38,7 +38,7 @@ class Framework:
                 if k == 'message':
                     print(f'Нам пришло сообщение:'
                           f' {Framework.decode_value(data)}')
-                    with open(f'message.csv', 'a+', encoding='utf-8') as fw:
+                    with open(f'../../../message.csv', 'a+', encoding='utf-8') as fw:
                         for v in Framework.decode_value(data).items():
                             fw.writelines(v)
         if method == 'GET':
