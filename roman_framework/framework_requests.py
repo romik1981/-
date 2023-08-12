@@ -68,7 +68,3 @@ class PostRequests:
         # превращаем данные в словарь
         data = self.parse_wsgi_input_data(data)
         return data
-
-
-def patterns():
-    return None
