@@ -103,12 +103,8 @@ class CreateCourse:
             except KeyError:
                 return '200 OK', 'No categories have been added yet'
 
-            # except ValueError:
-            #     return '200 OK', render('course_list.html',
-            #                             objects_list=category.courses,
-            #                             name=category.name,
-            #                             id=category.id)
-
+            except ValueError:
+                return '200 OK', 'No courses have been added yet'
 
 # контроллер - создать категорию
 @AppRoute(routes=routes, url='/create-category/')
@@ -126,7 +122,7 @@ class CreateCategory:
             category_id = data.get('category_id')
 
             category = None
-            if category_id != '':
+            if category_id:
                 category = site.find_category_by_id(int(category_id))
 
             new_category = site.create_category(name, category)
