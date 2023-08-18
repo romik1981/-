@@ -2,7 +2,6 @@
 from quopri import decodestring
 from framework_requests import GetRequests, PostRequests
 
-
 class PageNotFound404:
     def __call__(self, request):
         return '404 WHAT', '404 PAGE Not Found'
@@ -29,6 +28,7 @@ class Framework:
         method = environ['REQUEST_METHOD']
         request['method'] = method
 
+
         if method == 'POST':
             data = PostRequests().get_request_params(environ)
             request['data'] = Framework.decode_value(data)
@@ -40,7 +40,7 @@ class Framework:
                           f' {Framework.decode_value(data)}')
                     with open(f'message.csv', 'a+', encoding='utf-8') as fw:
                         for v in Framework.decode_value(data).items():
-                            fw.writeline(v)
+                            fw.writelines(v)
         if method == 'GET':
             request_params = GetRequests().get_request_params(environ)
             request['request_params'] = Framework.decode_value(request_params)
