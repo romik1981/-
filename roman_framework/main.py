@@ -46,6 +46,13 @@ class Framework:
                     for k, v in message.items():
                         fw.write(f'{k}: {v}\n')
                     fw.writelines(f'Конец сообщения!\n')
+            for k,v in data.items():
+                if k == 'message':
+                    print(f'Нам пришло сообщение:'
+                          f' {Framework.decode_value(data)}')
+                    with open(f'message.csv', 'a+', encoding='utf-8') as fw:
+                        for v in Framework.decode_value(data).items():
+                            fw.writeline(v)
         if method == 'GET':
             request_params = GetRequests().get_request_params(environ)
             request['request_params'] = Framework.decode_value(request_params)
