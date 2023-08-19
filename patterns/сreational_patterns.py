@@ -1,8 +1,6 @@
 from copy import deepcopy
 from quopri import decodestring
-from unicodedata import category
-
-from views import *
+from datetime import datetime
 
 # абстрактный пользователь
 
@@ -157,4 +155,6 @@ class Logger(metaclass=SingletonByName):
     def log(text):
         print('log--->', text)
         with open(f'{text}.txt', 'a+', encoding='utf-8') as fw:
-            fw.writelines('Создан новый курс')
+            data_time = str(datetime.now())
+            fw.writelines(f'Открыт: {text}')
+            fw.writelines(data_time)
