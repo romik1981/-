@@ -51,15 +51,6 @@ class Framework:
             request['request_params'] = Framework.decode_value(request_params)
             print(f'Нам пришли GET-параметры:'
                   f' {Framework.decode_value(request_params)}')
-        # if method == 'MESSAGE':
-        #     request_params = GetRequests().get_request_params(environ)
-        #     request['request_params'] = Framework.decode_value(request_params)
-        #     print(f'Нам пришло сообщение:'
-        #           f' {Framework.decode_value(request_params)}')
-        #     with open(f'message.csv', 'w+', encoding='utf-8') as fw:
-        #         for k,v in Framework.decode_value(request_params):
-        #             fw.writelines(k,v)
-
 
         # находим нужный контроллер
         # отработка паттерна page controller
