@@ -134,6 +134,9 @@ class CreateCategory:
 
             site.categories.append(new_category)
 
+            new_category.mark_new()
+            UnitOfWork.get_current().commit()
+
             return '200 OK', render('index.html', objects_list=site.categories)
         else:
             categories = site.categories
@@ -148,6 +151,13 @@ class CategoryList:
         logger.log('Открыт: Список категорий')
         return '200 OK', render('category_list.html',
                                 objects_list=site.categories)
+
+    queryset = site.categories
+    template_name = 'category_list.html'
+
+    def get_queryset(self):
+        mapper = MapperRegistry.get_current_mapper('category')
+        return mapper.all()
 
 
 @AppRoute(routes=routes, url='/copy-course/')
