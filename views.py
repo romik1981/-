@@ -91,6 +91,10 @@ class CreateCourse:
 
                 site.courses.append(course)
 
+                # Закоментируем запись названия курса в базу данных
+                # course.mark_new()
+                # UnitOfWork.get_current().commit()
+
             return '200 OK', render('course_list.html',
                                     objects_list=category.courses,
                                     name=category.name,

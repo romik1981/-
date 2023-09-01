@@ -294,11 +294,67 @@ class CategoryMapper:
 connection = connect('patterns.sqlite')
 
 
+class CourseMapper:
+
+    def __init__(self, connection):
+        self.connection = connection
+        self.cursor = connection.cursor()
+        self.tablename = 'course'
+
+    def all(self):
+        statement = f'SELECT * from {self.tablename}'
+        self.cursor.execute(statement)
+        result = []
+        for item in self.cursor.fetchall():
+            id, name = item
+            category = Category(name)
+            category.id = id
+            result.append(category)
+        return result
+
+    def find_by_id(self, id):
+        statement = f"SELECT id, course_name FROM {self.tablename} WHERE id=?"
+        self.cursor.execute(statement, (id,))
+        result = self.cursor.fetchone()
+        if result:
+            return Category(*result)
+        else:
+            raise RecordNotFoundException(f'record with id={id} not found')
+
+    def insert(self, obj):
+        statement = f"INSERT INTO {self.tablename} (course_name) VALUES (?)"
+        self.cursor.execute(statement, (obj.name,))
+        try:
+            self.connection.commit()
+        except Exception as e:
+            raise DbCommitException(e.args)
+
+    def update(self, obj):
+        statement = f"UPDATE {self.tablename} SET course_name=? WHERE id=?"
+
+        self.cursor.execute(statement, (obj.name, obj.id))
+        try:
+            self.connection.commit()
+        except Exception as e:
+            raise DbUpdateException(e.args)
+
+    def delete(self, obj):
+        statement = f"DELETE FROM {self.tablename} WHERE id=?"
+        self.cursor.execute(statement, (obj.id,))
+        try:
+            self.connection.commit()
+        except Exception as e:
+            raise DbDeleteException(e.args)
+
+connection = connect('patterns.sqlite')
+
+
 # архитектурный системный паттерн - Data Mapper
 class MapperRegistry:
     mappers = {
         'student': StudentMapper,
         'category': CategoryMapper,
+        'course': CourseMapper,
     }
 
     @staticmethod
@@ -311,6 +367,9 @@ class MapperRegistry:
         if isinstance(obj, Category):
 
             return CategoryMapper(connection)
+
+        if isinstance(obj, Course):
+            return CourseMapper(connection)
 
     @staticmethod
     def get_current_mapper(name):
